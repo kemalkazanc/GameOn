@@ -3,6 +3,7 @@ const modalBtn = document.querySelectorAll(".modal-btn");
 const formData = document.querySelectorAll(".formData");
 const modalbg = document.querySelector(".bground");
 const closeModal = document.querySelector(".close");
+const closeMessage = document.querySelector(".confirm-message")
 const form = document.querySelector("form");
 const submitBtn = document.querySelector(".js-submitBtn");
 
@@ -38,6 +39,11 @@ function launchModal() {
 // Close modale
 closeModal.addEventListener("click" , () => {
   modalbg.style.display = "none";
+})
+
+// Close Message
+closeMessage.addEventListener("click" , () => {
+  closeMessage.style.display = "none";
 })
 
   //Cette variable va nous permettre d'afficher le text d'erreur
