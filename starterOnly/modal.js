@@ -3,17 +3,22 @@ const modalBtn = document.querySelectorAll(".modal-btn");
 const formData = document.querySelectorAll(".formData");
 const modalbg = document.querySelector(".bground");
 const closeModal = document.querySelector(".close");
-const closeMessage = document.querySelector(".confirm-message")
 const form = document.querySelector("form");
 const submitBtn = document.querySelector(".js-submitBtn");
+
+  // Message de remerciement
+  const closeMessage = document.querySelector(".close_message");
+  const bgMessage = document.querySelector(".bground_message");
+  const btnMessage = document.querySelector(".close-btn")
 
   // Form Elements
 const firstName = document.getElementById("first");
 const lastName = document.getElementById("last");
 const emailName = document.getElementById("email");
-const birthDate = document.querySelector("birthdate");
-const number = document.getElementById("quantity");
-//const cgu = document.getElementById(input[checkbox1 , checkbox2 ])
+const birthDate = document.getElementById("birthdate");
+const city = document.querySelector('input[name="location"]');
+const numberOfParticipation = document.getElementById("quantity");
+const cgu = document.getElementById("checkbox1")
 
 //-------------------------------------------------------//
 //-------------------------------------------------------//
@@ -41,16 +46,50 @@ closeModal.addEventListener("click" , () => {
   modalbg.style.display = "none";
 })
 
-// Close Message
+// Close  Modal Message
 closeMessage.addEventListener("click" , () => {
-  closeMessage.style.display = "none";
+  bgMessage.style.display = "none";
 })
 
-  //Cette variable va nous permettre d'afficher le text d'erreur
+// Button Fermer
+btnMessage.addEventListener("click", () => {
+  bgMessage.style.display = "none";
+} )
+
+//Cette variable va nous permettre d'afficher le text d'erreur
 const error = document.getElementsByClassName("hidden");
 
-  // Variable Form
-  //Les variables représenter dans le input en question
+//------------------------------------------------------//
+//------------------------------------------------------//
+//Validation formulaire
+firstName.addEventListener("input", (e) => {
+  first = e.target.value;
+  //console.log(e.target.value);
+})
+
+lastName.addEventListener("input", (e) => {
+  name = e.target.value;
+  //console.log(e.target.value);
+})
+
+// emailName.addEventListener("input", (e) => {
+//   //console.log(e.target.value);
+// })
+
+
+// numberOfParticipation.addEventListener("input", (e) => {
+//   console.log(e.target.value);
+//   numberGame = e.target.value;
+// })
+
+// cgu.addEventListener("input", (e) =>{
+//   //console.log(e.target.value);
+// } )
+
+//------------------------------------------------------//
+//------------------------------------------------------//
+// Variable Form
+//Les variables représenter dans le input en question
 let first = "";
 let name = "";
 let email = "";
@@ -95,45 +134,69 @@ function checkLastName () {
 }
 // Fonction Email
 //regex email pour accepter les charactères spéciaux chiffres et lettre avant et après le @
-let regexEmail =
-  /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+let regexEmail = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 // fonction de vérification du champs email
 function checkEmail() {
-  if (!email.value) {
+  const emailError = document.querySelector(".js-emailError")
+  // console.log(emailName.value);
+  // console.log(regexEmail.test(emailName.value))
+  if (!emailName.value || !regexEmail.test(emailName.value) ) {
     // si le champs est vide message d'erreur
     emailError.classList.remove("hidden");
-  } else if (regexEmail.exec(email.value) == null) {
-    //si se n'est pas conforme au regex email donc pas valide
-    emailError.classList.remove("hidden");
+    isEmailValid = false;
   } else {
     //si tout est respecté pas de message d'erreur
     emailError.classList.add("hidden");
+    isEmailValid = true;
   }
 }
 
 // Fonction Birthday
 function checkbirthday() {
+  let dateBirth = birthdate.value;
+  //console.log(dateBirth);
   const birthdayError = document.querySelector(".js-birthdayError");
-  if (birthday.value = null ){
-  birthdayError.classList.add("hidden");
-    isBirthdayValid = false;
-  } else (birtday.value = !null)
-  {
+  //si la date de naissance n'est pas renseigné champs vide
+  if (!birthDate.value){
+    //console.log("toto");
   birthdayError.classList.remove("hidden");
-    isBirthdayValid = true;
+    isBirthdayValid = false;
+  }
+  else
+  {
+    //console.log("toti")
+    let birthYear = dateBirth.split("-")[0];//récupère l'année de naissance
+    let currentYear = new Date().getFullYear(); // variable qui récupère la date actuelle
+    let age = currentYear - birthYear;//date actuelle- date de naissance = age
+    //console.log("response" , age)
+    if (age <= 17) {
+      //si l'age est inferieur ou égale à 17 ans donc erreur car il faut avoir 18 ans
+    birthdayError.classList.remove("hidden");
+      isBirthdayValid = false;
+    } else {
+      //si tout est bon on enlève le message d'erreur
+      birthdayError.classList.add("hidden");
+      isBirthdayValid = true;
+    }
   }
 }
 
 // Fonction Score
 function checkNumberGame(){
   const numberGameError = document.querySelector(".js-numberGameError");
-  if (numberGame.value){
+  if (!numberOfParticipation.value){
+  numberGameError.classList.remove("hidden");
+    isNumberGameValid = false;
+    console.log(numberOfParticipation + "valeur non complet")
+  } else if (numberOfParticipation.value > 99){
+    console.log(numberOfParticipation + " est au dessus de la limite");
+    numberGameError.classList.remove("hidden");
+    isNumberGameValid = false;
+  } else {
   numberGameError.classList.add("hidden");
     isNumberGameValid = true;
-  } else {
-  numberGameError.classList.remove("hidden");
-    isNumberGameValid = false
+    console.log(numberOfParticipation + " est correct");
   }
 }
 
@@ -177,50 +240,92 @@ function checkCgu() {
   if (!cgu.checked) {
     //si le bouton n'est pas coché alors erreur
     cguError.classList.remove("hidden");
+    isCguValid = false;
   } else {
     //s'il est coché plus d'erreur
     cguError.classList.add("hidden");
+    isCguValid = true;
   }
 }
 
-//------------------------------------------------------//
-//------------------------------------------------------//
-//Validation formulaire
-firstName.addEventListener("input", (e) => {
-  first = e.target.value;
-})
+// Fonction qui ouvre la modal de remerciement
+function modalGood() {
+  bgMessage.style.display = block;
+}
 
-lastName.addEventListener("input", (e) => {
-  name = e.target.value;
-})
-
-emailName.addEventListener("input", (e) => {
-  console.log(e.target.value);
-})
-
-// birthDate.addEventListener("input", (e) => {
-//   birthday = e.target.value;
-// })
-
-number.addEventListener("input", (e) => {
-  console.log(e.target.value);
-  numberGame = e.target.value;
-})
-
-// emailName.addEventListener("input", (e) => {
-//   console.log(e.target.value);
-// })
 
 // Appel des fonctions pour valider le formulaire
+function validForm(e) {
+  e.preventDefault();//méthode pour empêcher le rafraichissement de la page formulaire car pas de php
+    //j'ai crée des variables de validation pour appeler chaque fonction de champs vérifiés
+    // let isFirstNameValid = checkFirstName();
+    // let isLastNameValid = checkLastName();
+    // let isEmailValid = checkEmail();
+    // let isBirthdayValid = checkbirthday();
+    // let isNumberGameValid = checkNumberGame();
+    // let isGameCityValid = checkCity();
+    // let isCguValid = checkCgu();
+    // if (
+    //   isFirstNameValid &&
+    //   isLastNameValid &&
+    //   isEmailValid &&
+    //   isBirthdayValid &&
+    //   isNumberGameValid &&
+    //   isGameCityValid &&
+    //   isCguValid
+    // ) {
+    //   // Si tous les champs sont validés on peut envoyer le formulaire sinon message d'erreur
+    //   modalbg.style.display = "none";
+    //   modalMessage.style.display = "block";
+    //   modalGood(); //on appel la fonction de validation
+    //   InitialisationFields(); // Puis on initialise
+    // }
+  }
+
+// Initialisation de tous les champs du formulaire
+function InitialisationFields() {
+  firstName.value = null;
+  lastName.value = null;
+  emailName.value = null;
+  birthDate.value = null;
+  numberOfParticipation.value = null;
+  city.checked = false;
+  cgu.checked = false;
+  firstNameError.style.display = "none";
+  lastNameError.style.display = "none";
+  emailError.style.display = "none";
+  birthdayError.style.display = "none";
+  numberGameError.style.display = "none";
+  gameCityError.style.display = "none";
+  cguError.style.style.display = "none";
+}
+
+
 submitBtn.addEventListener("click" , () => {
+  //e.preventDefault();//méthode pour empêcher le rafraichissement de la page formulaire car pas de php
   console.log("envoyer")
   checkFirstName();
   checkLastName();
-  // checkEmail();
+  checkEmail();
   checkbirthday();
   checkNumberGame();
   checkCity();
   checkCgu()
+  if (
+    isFirstNameValid &&
+    isLastNameValid &&
+    isEmailValid &&
+    isBirthdayValid &&
+    isNumberGameValid &&
+    isGameCityValid &&
+    isCguValid
+  ) {
+    // Si tous les champs sont validés on peut envoyer le formulaire sinon message d'erreur
+    modalbg.style.display = "none";
+    modalMessage.style.display = "block";
+    modalGood(); //on appel la fonction de validation
+    InitialisationFields(); // Puis on initialise
+  }
 })
 
   //Ici on empeche l'envoie du formulaire grâce à la methode e.preventDefault();
