@@ -33,24 +33,27 @@ img {
 .topnav {
   display: flex;
   justify-content: space-between;
-  /* overflow: hidden; */
-  margin: 20px -20px 20px 20px;
-  padding: 0px 55px;
+  overflow: hidden;
+  margin: 3.5%;
 }
+
 .header-logo {
     float: left;
     height: auto;
     margin-top: 10px;
     width: 250px;
 }
+
 .main-navbar {
     float: right;
     margin-top: 15px;
 }
+
 .topnav .main-navbar.open  a{
     display: block;
     text-align: center;
 }
+
 .topnav a {
   float: left;
   display: flex;

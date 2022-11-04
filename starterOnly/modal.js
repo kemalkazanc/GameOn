@@ -20,6 +20,16 @@ const city = document.querySelector('input[name="location"]');
 const numberOfParticipation = document.getElementById("quantity");
 const cgu = document.getElementById("checkbox1")
 
+  //Form Error Elements
+const firstNameError = document.querySelector(".js-firstNameError");
+const lastNameError = document.querySelector(".js-lastNameError");
+const emailError = document.querySelector(".js-emailError");
+const birthdayError = document.querySelector(".js-birthdayError");
+const numberGameError = document.querySelector(".js-numberGameError");
+const gameCityError = document.querySelector(".js-gameCityError");
+const cguError = document.querySelector(".js-cguError");
+const error = document.getElementsByClassName("hidden");
+
 //-------------------------------------------------------//
 //-------------------------------------------------------//
   //Pour afficher la nav bar
@@ -55,9 +65,6 @@ closeMessage.addEventListener("click" , () => {
 btnMessage.addEventListener("click", () => {
   bgMessage.style.display = "none";
 } )
-
-//Cette variable va nous permettre d'afficher le text d'erreur
-const error = document.getElementsByClassName("hidden");
 
 //------------------------------------------------------//
 //------------------------------------------------------//
@@ -111,7 +118,6 @@ let isCguValid = false;
 // Je crée les fonctions et vérifie que le champ remplie les conditions
 // Fonction FirstName
 function checkFirstName () {
-  const firstNameError = document.querySelector(".js-firstNameError");
   if (first.length >= 2){
     firstNameError.classList.add("hidden");
     isFirstNameValid = true;
@@ -123,7 +129,6 @@ function checkFirstName () {
 
 // Fonction LastName
 function checkLastName () {
-  const lastNameError = document.querySelector(".js-lastNameError");
   if (name.length >= 2){
     lastNameError.classList.add("hidden");
     isLastNameValid = true;
@@ -138,7 +143,6 @@ let regexEmail = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((
 
 // fonction de vérification du champs email
 function checkEmail() {
-  const emailError = document.querySelector(".js-emailError")
   // console.log(emailName.value);
   // console.log(regexEmail.test(emailName.value))
   if (!emailName.value || !regexEmail.test(emailName.value) ) {
@@ -156,7 +160,6 @@ function checkEmail() {
 function checkbirthday() {
   let dateBirth = birthdate.value;
   //console.log(dateBirth);
-  const birthdayError = document.querySelector(".js-birthdayError");
   //si la date de naissance n'est pas renseigné champs vide
   if (!birthDate.value){
     //console.log("toto");
@@ -184,11 +187,10 @@ function checkbirthday() {
 
 // Fonction Score
 function checkNumberGame(){
-  const numberGameError = document.querySelector(".js-numberGameError");
   if (!numberOfParticipation.value){
   numberGameError.classList.remove("hidden");
     isNumberGameValid = false;
-    console.log(numberOfParticipation + "valeur non complet")
+    //console.log(numberOfParticipation + "valeur non complet")
   } else if (numberOfParticipation.value > 99){
     console.log(numberOfParticipation + " est au dessus de la limite");
     numberGameError.classList.remove("hidden");
@@ -196,7 +198,7 @@ function checkNumberGame(){
   } else {
   numberGameError.classList.add("hidden");
     isNumberGameValid = true;
-    console.log(numberOfParticipation + " est correct");
+    //console.log(numberOfParticipation + " est correct");
   }
 }
 
@@ -214,8 +216,7 @@ let locationArray = [
 
 //fonction de vérification des villes
 function checkCity() {
-  const gameCityError = document.querySelector(".js-gameCityError");
-  if (
+   if (
     !locationArray[0].checked &&
     !locationArray[1].checked &&
     !locationArray[2].checked &&
@@ -236,7 +237,6 @@ function checkCity() {
 // Fonction CGU
 //fonction de vérification de la CGU cochée ou décochée
 function checkCgu() {
-  const cguError = document.querySelector(".js-cguError");
   if (!cgu.checked) {
     //si le bouton n'est pas coché alors erreur
     cguError.classList.remove("hidden");
@@ -250,7 +250,7 @@ function checkCgu() {
 
 // Fonction qui ouvre la modal de remerciement
 function modalGood() {
-  bgMessage.style.display = block;
+  bgMessage.style.display = "block";
 }
 
 
@@ -297,13 +297,13 @@ function InitialisationFields() {
   birthdayError.style.display = "none";
   numberGameError.style.display = "none";
   gameCityError.style.display = "none";
-  cguError.style.style.display = "none";
+  cguError.style.display = "none";
 }
 
 
 submitBtn.addEventListener("click" , () => {
   //e.preventDefault();//méthode pour empêcher le rafraichissement de la page formulaire car pas de php
-  console.log("envoyer")
+  //console.log("envoyer")
   checkFirstName();
   checkLastName();
   checkEmail();
@@ -322,7 +322,7 @@ submitBtn.addEventListener("click" , () => {
   ) {
     // Si tous les champs sont validés on peut envoyer le formulaire sinon message d'erreur
     modalbg.style.display = "none";
-    modalMessage.style.display = "block";
+    bgMessage.style.display = "block";
     modalGood(); //on appel la fonction de validation
     InitialisationFields(); // Puis on initialise
   }
