@@ -165,7 +165,7 @@ function checkbirthday() {
     //console.log("toto");
   birthdayError.classList.remove("hidden");
     isBirthdayValid = false;
-  }
+  } 
   else
   {
     //console.log("toti")
